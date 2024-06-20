@@ -31,7 +31,8 @@ export const addBook = async (req, res) => {
  */
 export const getBook = async (req, res) => {
     try {
-      const data = await BookService.getBook(req.body);
+      const bookId=req.params.id;
+      const data = await BookService.getBook(bookId);
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
@@ -53,7 +54,7 @@ export const getBook = async (req, res) => {
  */
 export const getAllBooks = async (req, res) => {
     try {
-      const data = await BookService.getAllBooks(req.body);
+      const data = await BookService.getAllBooks();
       res.status(HttpStatus.OK).json({
         code: HttpStatus.OK,
         data: data,
