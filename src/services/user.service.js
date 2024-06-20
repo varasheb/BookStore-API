@@ -25,13 +25,9 @@ export const registerUser = async (body) => {
 };
 
 //login the user
-export const loginUser = async ({ mobile, email, password }) => {
-  let user = null;
-  if (!mobile) {
-    user = await User.findOne({ where: { email: email } });
-  } else {
-    user = await User.findOne({ where: { mobile: mobile } });
-  }
+export const loginUser = async ({ email, password }) => {
+  const user = await User.findOne({ where: { email: email } });
+  
   if (!user) {
     throw new Error('User not found');
   }
