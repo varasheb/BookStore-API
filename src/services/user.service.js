@@ -44,7 +44,7 @@ export const forgetPassword = async ({ email }) => {
   const user = await User.findOne({ where: { email } });
   if (!user) throw new Error('This email does not exist');
 
-  const token = jwt.sign({ userId: user.id }, resetkey, { expiresIn: '10m' });
+  const token = jwt.sign({ id: user.id }, resetkey, { expiresIn: '10m' });
   const result = await sendResetPasswordEmail(user.email, token);
   return { user, token, result };
 };
