@@ -2,7 +2,7 @@ import express from 'express';
 import * as bookController from '../controllers/book.controller';
 import { userAuth } from '../middlewares/auth.middleware';
 import { bookValidator } from '../validators/book.validator';
-// import { getAllCachedbooks, getCachedbook } from '../utils/book.util';
+
 
 const router = express.Router();
 
