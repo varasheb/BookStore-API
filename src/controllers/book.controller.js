@@ -9,6 +9,7 @@ import * as BookService from '../services/book.service';
  */
 export const addBook = async (req, res) => {
   try {
+    
     const data = await BookService.addBook(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
