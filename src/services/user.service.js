@@ -24,10 +24,10 @@ export const registerUser = async (body) => {
   return data;
 };
 
-//login the user
+// login the user
 export const loginUser = async ({ email, password }) => {
   const user = await User.findOne({ where: { email: email } });
-  
+
   if (!user) {
     throw new Error('User not found');
   }
@@ -39,7 +39,7 @@ export const loginUser = async ({ email, password }) => {
   return { user, token };
 };
 
-//forgot password
+// forgot password
 export const forgetPassword = async ({ email }) => {
   const user = await User.findOne({ where: { email } });
   if (!user) throw new Error('This email does not exist');

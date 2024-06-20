@@ -6,7 +6,6 @@ import {
   emailValidator,
   passwordValidator
 } from '../validators/user.validator';
-import { userAuth } from '../middlewares/auth.middleware';
 import { userResetAuth } from '../middlewares/auth.middleware';
 
 const router = express.Router();
