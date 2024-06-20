@@ -21,8 +21,8 @@ export const userAuth = async (req, res, next) => {
       throw new Error('Authentication required');
     }
     bearerToken = bearerToken.split(' ')[1];
-    const { userId } = await jwt.verify(bearerToken, key);
-    req.body.userId = userId;
+    const { id } = await jwt.verify(bearerToken, key);
+    req.body.adminUserId = id;
     next();
   } catch (error) {
     res.status(HttpStatus.UNAUTHORIZED).json({
@@ -48,8 +48,8 @@ export const userResetAuth = async (req, res, next) => {
       throw new Error('Authentication required');
     }
     bearerToken = bearerToken.split(' ')[1];
-    const { userId } = await jwt.verify(bearerToken, resetkey);
-    req.body.userId = userId;
+    const { id } = await jwt.verify(bearerToken, resetkey);
+    req.body.userId = id;
     req.body.token = bearerToken;
     next();
   } catch (error) {
