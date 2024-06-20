@@ -1,5 +1,4 @@
 import sequelize, { DataTypes } from '../config/database';
-import { deleteBook } from '../controllers/book.controller';
 
 const Book = require('../models/book')(sequelize, DataTypes);
 
@@ -29,13 +28,13 @@ export const getAllBooks = async () => {
 
 // Update Book By Id
 export const updateBook = async (bookId, body) => {
-    const [updatedRows] = await Book.update(body, {
+    const updatedBook = await Book.update(body, {
         where: { id: bookId },
+        returning: true
     });
-    if (updatedRows === 0) {
+    if (updatedBook[0] === 0)
         throw new Error('Book not found');
-    }
-      return updatedRows;
+      return updatedBook[1][0];
 };
 
 // Delete the Book
@@ -49,7 +48,7 @@ export const deleteBook = async (bookId, adminUserId) => {
       throw new Error('Unauthorized: Only the admin Can Delete');
     }
   
-    const deletedBook = await book.destroy();
-    return deletedBook;
+    await book.destroy();
+    return book;
   };
   
