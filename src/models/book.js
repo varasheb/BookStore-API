@@ -8,15 +8,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      book.belongsTo(models.user, { foreignKey: 'userId', as: 'user' });
     }
   }
   book.init(
     {
       bookName: DataTypes.STRING,
-      description: DataTypes.STRING(2000),
+      description: DataTypes.TEXT,
       discountPrice: DataTypes.DECIMAL(10, 2),
-      bookImage: DataTypes.STRING,
+      bookImage: DataTypes.TEXT,
       author: DataTypes.STRING,
       quantity: DataTypes.INTEGER,
       price: DataTypes.DECIMAL(10, 2),
