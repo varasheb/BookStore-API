@@ -1,8 +1,5 @@
-import sequelize, { DataTypes } from '../config/database';
-import { removeWishlist } from '../controllers/wishlist.controller';
+const {Wishlist, Book} = require('../models/assocation');
 
-const Wishlist = require('../models/wishlist')(sequelize, DataTypes);
-const Book = require('../models/book')(sequelize, DataTypes);
 
 //create new wishlist
 export const addToWishlist = async (bookId, userId) => {
@@ -23,10 +20,26 @@ export const addToWishlist = async (bookId, userId) => {
 
 // get all items from wishlist
 export const getWishlist = async (userId) => {
-
+    const wishlistItems = await Wishlist.findAll({
+        where: { userId },
+        include: [
+          {
+            model: Book,
+            attributes: ['id', 'bookName', 'description', 'author', 'price', 'bookImage']
+          }
+        ]
+      });
+  return wishlistItems
 };
 
 // Remove items from wishlist
 export const removeWishlist = async (bookId, userId) => {
- 
+  const wishlistItem = await Wishlist.findOne({
+    where: { bookId, userId }
+  });
+  if (!wishlistItem)
+    throw new Error("Book not found in the wishlist");
+
+  await wishlistItem.destroy();
+  return wishlistItem;
 };

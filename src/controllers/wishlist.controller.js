@@ -11,7 +11,7 @@ export const addToWishlist = async (req, res) => {
   try {
     const bookId = req.params.id;
     const userId = req.body.userId;
-    const data = await wishlistService.addTowishlist(bookId, userId);
+    const data = await wishlistService.addToWishlist(bookId, userId);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,
@@ -58,7 +58,7 @@ export const removeWishlist = async (req, res) => {
   try {
     const bookId = req.params.id;
     const userId = req.body.userId;
-    const data = await wishlistService.removeItemFromwishlist(bookId, userId);
+    const data = await wishlistService.removeWishlist(bookId, userId);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,

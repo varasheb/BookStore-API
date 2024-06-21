@@ -2,9 +2,9 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { sendResetPasswordEmail } from '../utils/sendMail';
-import sequelize, { DataTypes } from '../config/database';
 
-const User = require('../models/user')(sequelize, DataTypes);
+const {User} = require('../models/assocation');
+
 
 dotenv.config();
 
