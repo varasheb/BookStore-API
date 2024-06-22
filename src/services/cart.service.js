@@ -1,7 +1,4 @@
-import sequelize, { DataTypes } from '../config/database';
-
-const Cart = require('../models/cart')(sequelize, DataTypes);
-const Book = require('../models/book')(sequelize, DataTypes);
+const {Cart, Book} = require('../models/assocation');
 
 //create new cart
 export const addToCart = async (bookId, userId) => {
