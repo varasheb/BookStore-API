@@ -9,8 +9,7 @@ import * as AddressService from '../services/address.service';
  */
 export const newAddress = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const data = await AddressService.newAddress(userId);
+    const data = await AddressService.newAddress(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,
@@ -71,3 +70,29 @@ export const removeAddress = async (req, res) => {
     });
   }
 };
+
+
+/**
+ * Controller to update a Address
+ * @param  {object} req - request object
+ * @param {object} res - response object
+ * @param {Function} next
+ */
+export const updateAddress = async (req, res) => {
+    try {
+      const addressId = req.params.id;
+      const userId = req.body.userId;
+      const body=req.body;
+      const data = await AddressService.updateAddress(addressId,userId,body);
+      res.status(HttpStatus.OK).json({
+        code: HttpStatus.OK,
+        data: data,
+        message: 'Address updated successfully'
+      });
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        code: HttpStatus.BAD_REQUEST,
+        message: error.message
+      });
+    }
+  };

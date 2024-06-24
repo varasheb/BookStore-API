@@ -1,19 +1,17 @@
-const { Address, User } = require('../models/assocation');
+const { Address } = require('../models/assocation');
 
 // create new Address
 export const newAddress = async (body) => {
-      const userId=body.userId;
-      const user = await User.findByPk(userId);
-      if (!user) 
-        throw new Error('User not found');
+      const userId=body.userId
       const existingAddresses = await Address.findAll({ where: { userId } });
       if (existingAddresses.length >= 3) 
         throw new Error('User can only have 3 addresses');
-      const existingAddressOfType = existingAddresses.find(address => address.addressType === addressData.addressType);
+      const existingAddressOfType = existingAddresses.find(address => address.addressType === body.addressType);
       if (existingAddressOfType) 
-        throw new Error(`User already has an address of type ${addressData.addressType}`);
-      const address = await Address.create({addressData});
+        throw new Error(`User already has an address of type ${body.addressType}`);
+      const address = await Address.create(body);
       return address;
+
     }
 
 // get all Address
@@ -31,4 +29,16 @@ export const removeAddress = async (addressId, userId) => {
       await address.destroy();
       return address;
   };
+
+  // Update Address
+export const updateAddress = async (addressId, userId, updatebody) => {
+  const address = await Address.findOne({ where: { id: addressId, userId } });
+  if (!address) 
+    throw new Error('Address not found');
+  if (updatebody.hasOwnProperty('addressType')) 
+    throw new Error('Cannot change address type');
   
+  await address.update(updatebody);
+
+  return address;
+};
