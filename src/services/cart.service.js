@@ -1,4 +1,4 @@
-const {Cart, Book} = require('../models/assocation');
+const { Cart, Book } = require('../models/assocation');
 
 //create new cart
 export const addToCart = async (bookId, userId) => {
