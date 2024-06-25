@@ -23,7 +23,7 @@ const routes = () => {
 
   router.use('/wishlist', wishlistRoute);
 
-//  router.use('/order', orderRoute);
+  router.use('/order', orderRoute);
 
   router.use('/address', addressRoute);
 

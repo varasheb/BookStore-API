@@ -14,7 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       bookName: DataTypes.STRING,
       author: DataTypes.STRING,
       price: DataTypes.DECIMAL(10, 2),
-      totalPrice: DataTypes.DECIMAL(20, 2)
+      totalPrice: DataTypes.DECIMAL(20, 2),
+      isOrderPlaced: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+      }
     },
     {
       sequelize,
