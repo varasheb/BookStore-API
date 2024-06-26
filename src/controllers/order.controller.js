@@ -9,7 +9,9 @@ import * as orderService from '../services/order.service';
  */
 export const newOrder = async (req, res) => {
   try {
-    const data = await orderService.newOrder(req.body);
+    const addressId = req.params.id;
+    const userId = req.body.userId;
+    const data = await orderService.newOrder(addressId,userId);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
       data: data,

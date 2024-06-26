@@ -1,20 +1,14 @@
 const { Order, Address, Cart, Book } = require('../models/assocation');
 
 // create new order
-export const newOrder = async ({
-  userId,
-  addressId,
-  cartId,
-  fullName,
-  mobile
-}) => {
+export const newOrder = async (userId,addressId) => {
   const address = await Address.findOne({
     where: { id: addressId, userId: userId }
   });
   if (!address)
     throw new Error('Address not found or does not belong to the user');
 
-  const cart = await Cart.findOne({ where: { id: cartId, userId } });
+  const cart = await Cart.findOne({ where: { userId } });
   if (!cart) throw new Error('Cart not found');
 
   const book = await Book.findByPk(cart.bookId);

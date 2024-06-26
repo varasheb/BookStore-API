@@ -12,13 +12,9 @@ module.exports = (sequelize, DataTypes) => {
   address.init(
     {
       userId: DataTypes.INTEGER,
-      addressType: DataTypes.ENUM('Home', 'Work', 'Other'),
-      addressLine1: DataTypes.STRING,
-      addressLine2: DataTypes.STRING,
-      city: DataTypes.STRING,
-      state: DataTypes.STRING,
-      postalCode: DataTypes.STRING,
-      country: DataTypes.STRING
+      fullName: DataTypes.STRING,
+      mobile: DataTypes.STRING,
+      addresses: DataTypes.JSON,
     },
     {
       sequelize,
