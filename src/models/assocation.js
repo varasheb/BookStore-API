@@ -8,25 +8,22 @@ const Address = require('./address')(sequelize, DataTypes);
 const Order = require('./order')(sequelize, DataTypes);
 
 User.hasMany(Book, { foreignKey: 'userId' });
-User.hasMany(Cart, { foreignKey: 'userId' });
+User.hasOne(Cart, { foreignKey: 'userId' });
 User.hasMany(Wishlist, { foreignKey: 'userId' });
 User.hasMany(Address, { foreignKey: 'userId' });
 User.hasMany(Order, { foreignKey: 'userId' });
 
-Book.hasMany(Cart, { foreignKey: 'bookId' });
+Book.belongsTo(User, { foreignKey: 'userId' }); 
 Book.hasMany(Wishlist, { foreignKey: 'bookId' });
 
+Cart.belongsTo(User, { foreignKey: 'userId' });
 Cart.hasMany(Order, { foreignKey: 'cartId' });
 
+Address.belongsTo(User, { foreignKey: 'userId' });
 Address.hasMany(Order, { foreignKey: 'addressId' });
-
-Cart.belongsTo(User, { foreignKey: 'userId' });
-Cart.belongsTo(Book, { foreignKey: 'bookId' });
 
 Wishlist.belongsTo(User, { foreignKey: 'userId' });
 Wishlist.belongsTo(Book, { foreignKey: 'bookId' });
-
-Address.belongsTo(User, { foreignKey: 'userId' });
 
 Order.belongsTo(User, { foreignKey: 'userId' });
 Order.belongsTo(Cart, { foreignKey: 'cartId' });

@@ -9,12 +9,13 @@ module.exports = (sequelize, DataTypes) => {
   Cart.init(
     {
       userId: DataTypes.INTEGER,
-      bookId: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER,
-      bookName: DataTypes.STRING,
-      author: DataTypes.STRING,
-      price: DataTypes.DECIMAL(10, 2),
+      books: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: []
+      },
       totalPrice: DataTypes.DECIMAL(20, 2),
+      totalDiscountPrice:DataTypes.DECIMAL(20, 2),
       isOrderPlaced: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
