@@ -17,6 +17,12 @@ export const registerUser = async (body) => {
   });
   if (user)
     throw new Error('User Already Exist for this Email or mobile Number');
+  if (body.role === 'admin') {
+    const adminUser = await User.findOne({
+      where: { role: 'admin' }
+    });
+    if (adminUser) throw new Error('An admin user already exists');
+  }
   const hashedPassword = await bcrypt.hash(body.password, 10);
   body.password = hashedPassword;
   const data = await User.create(body);
