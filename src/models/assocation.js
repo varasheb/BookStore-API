@@ -14,19 +14,17 @@ User.hasMany(Address, { foreignKey: 'userId' });
 User.hasMany(Order, { foreignKey: 'userId' });
 
 Book.belongsTo(User, { foreignKey: 'userId' }); 
-Book.hasMany(Wishlist, { foreignKey: 'bookId' });
+Book.hasOne(Wishlist, { foreignKey: 'bookId' });
 
 Cart.belongsTo(User, { foreignKey: 'userId' });
-Cart.hasMany(Order, { foreignKey: 'cartId' });
 
 Address.belongsTo(User, { foreignKey: 'userId' });
-Address.hasMany(Order, { foreignKey: 'addressId' });
+Address.hasOne(Order, { foreignKey: 'addressId' });
 
 Wishlist.belongsTo(User, { foreignKey: 'userId' });
 Wishlist.belongsTo(Book, { foreignKey: 'bookId' });
 
 Order.belongsTo(User, { foreignKey: 'userId' });
-Order.belongsTo(Cart, { foreignKey: 'cartId' });
 Order.belongsTo(Address, { foreignKey: 'addressId' });
 
 module.exports = { User, Book, Cart, Wishlist, Address, Order };

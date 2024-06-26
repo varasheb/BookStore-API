@@ -1,34 +1,38 @@
 const { Order, Address, Cart, Book } = require('../models/assocation');
 
 // create new order
-export const newOrder = async (userId,addressId) => {
-  const address = await Address.findOne({
-    where: { id: addressId, userId: userId }
-  });
-  if (!address)
-    throw new Error('Address not found or does not belong to the user');
+export const newOrder = async (userId, addressId) => {
+const address = await Address.findOne({where: { id: addressId, userId }});
+if (!address) 
+  throw new Error('Address not found or does not belong to the user');
 
-  const cart = await Cart.findOne({ where: { userId } });
-  if (!cart) throw new Error('Cart not found');
+const cart = await Cart.findOne({ where: { userId } });
+if (!cart) throw new Error('Cart not found');
 
-  const book = await Book.findByPk(cart.bookId);
-  if (!book) throw new Error(`Book with id ${cart.bookId} not found`);
-  if (book.quantity < cart.quantity)
-    throw new Error(`Out of Stock for book id ${cart.bookId}`);
-  book.quantity -= cart.quantity;
+for (const cartItem of cart.books) {
+  const book = await Book.findByPk(cartItem.bookId);
+  if (!book) 
+    throw new Error(`Book with id ${cartItem.bookId} not found`);
+  if (book.quantity < cartItem.quantity) 
+    throw new Error(`Out of Stock for book id ${cartItem.bookId}`);
+  book.quantity -= cartItem.quantity;
   await book.save();
+}
 
-  const order = await Order.create({
-    userId,
-    addressId,
-    cartId,
-    fullName,
-    mobile,
-    totalAmount: cart.totalPrice
-  });
-  cart.isOrderPlaced = true;
-  await cart.save();
-  return order;
+const { fullName, mobile } = address;
+const order = await Order.create({
+  userId,
+  addressId,
+  books: cart.books,
+  fullName,
+  mobile,
+  totalAmount: cart.totalDiscountPrice,
+});
+cart.books = [];
+cart.totalDiscountPrice=0;
+cart.totalPrice=0;
+await cart.save();
+return order;
 };
 
 // get all order

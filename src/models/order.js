@@ -13,7 +13,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       addressId: DataTypes.INTEGER,
-      cartId: DataTypes.INTEGER,
+      books: {
+        type: DataTypes.JSONB,
+        allowNull: false,
+        defaultValue: []
+      },
       fullName: DataTypes.STRING,
       mobile: DataTypes.STRING,
       totalAmount: DataTypes.DECIMAL(20, 2),
