@@ -14,6 +14,8 @@ import {
 import logger, { logStream } from './config/logger';
 
 import morgan from 'morgan';
+import swaggerUi from'swagger-ui-express';
+import swaggerDocument from './utils/swagger.json';
 
 const app = express();
 const host = process.env.APP_HOST;
@@ -26,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan('combined', { stream: logStream }));
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(`/api/${api_version}`, routes());
 app.use(appErrorHandler);
 app.use(genericErrorHandler);
