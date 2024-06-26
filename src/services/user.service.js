@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { sendResetPasswordEmail } from '../utils/sendMail';
 
-const {User} = require('../models/assocation');
-
+const { User } = require('../models/assocation');
 
 dotenv.config();
 

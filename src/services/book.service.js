@@ -1,5 +1,4 @@
-const {Book} = require('../models/assocation');
-
+const { Book } = require('../models/assocation');
 
 //create new Book
 export const addBook = async (body) => {
