@@ -1,4 +1,6 @@
-const { Order, Address, Cart, Book } = require('../models/assocation');
+import { publish } from '../config/rabbitMq';
+
+const { Order, Address, Cart, Book ,User} = require('../models/assocation');
 
 // create new order
 export const newOrder = async (userId, addressId) => {
@@ -7,7 +9,7 @@ if (!address)
   throw new Error('Address not found or does not belong to the user');
 
 const cart = await Cart.findOne({ where: { userId } });
-if (!cart) throw new Error('Cart not found');
+if (!cart || cart.books.length === 0) throw new Error('Cart not found');
 
 for (const cartItem of cart.books) {
   const book = await Book.findByPk(cartItem.bookId);
@@ -32,6 +34,13 @@ cart.books = [];
 cart.totalDiscountPrice=0;
 cart.totalPrice=0;
 await cart.save();
+const user = await User.findByPk(userId);
+if (!user) throw new Error('User not found');
+const message = JSON.stringify({
+  order: order,
+  email: user.email,
+});
+await publish('Order', message);
 return order;
 };
 

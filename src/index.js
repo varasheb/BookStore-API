@@ -15,6 +15,8 @@ import logger, { logStream } from './config/logger';
 
 import morgan from 'morgan';
 
+import {startEmailConsumer} from '../src/utils/emailConsumer'
+
 const app = express();
 const host = process.env.APP_HOST;
 const port = process.env.APP_PORT;
@@ -30,6 +32,7 @@ app.use(`/api/${api_version}`, routes());
 app.use(appErrorHandler);
 app.use(genericErrorHandler);
 app.use(notFound);
+startEmailConsumer();
 
 app.listen(port, () => {
   logger.info(`Server started at ${host}:${port}/api/${api_version}/`);

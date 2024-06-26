@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { sendResetPasswordEmail } from '../utils/sendMail';
+import { publish } from '../config/rabbitMq';
+
 
 const { User } = require('../models/assocation');
 
@@ -20,6 +22,8 @@ export const registerUser = async (body) => {
   const hashedPassword = await bcrypt.hash(body.password, 10);
   body.password = hashedPassword;
   const data = await User.create(body);
+  const message = JSON.stringify(data);
+  await publish('User', message);
   return data;
 };
 
