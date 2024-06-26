@@ -100,8 +100,8 @@ export const updateBook = async (req, res) => {
 export const deleteBook = async (req, res) => {
   try {
     const bookId = req.params.id;
-    const { adminUserId } = req.body;
-    const data = await BookService.deleteBook(bookId, adminUserId);
+    const { userId } = req.body;
+    const data = await BookService.deleteBook(bookId, userId);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
