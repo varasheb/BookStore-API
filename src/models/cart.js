@@ -16,10 +16,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       totalPrice: DataTypes.DECIMAL(20, 2),
       totalDiscountPrice:DataTypes.DECIMAL(20, 2),
-      isOrderPlaced: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
-      }
     },
     {
       sequelize,
