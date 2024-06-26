@@ -11,18 +11,26 @@ module.exports = (sequelize, DataTypes) => {
   }
   order.init(
     {
-        userId: DataTypes.INTEGER,
-        addressId:DataTypes.INTEGER,
-        cartId:DataTypes.INTEGER,
-        totalAmount:DataTypes.DECIMAL(20, 2),
-        status: {
-            type: DataTypes.ENUM('Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'),
-            defaultValue: 'Pending',
-          },
-        paymentStatus: {
-            type: DataTypes.ENUM('Pending', 'Completed', 'Failed', 'Refunded'),
-            defaultValue: 'Pending',
-          },
+      userId: DataTypes.INTEGER,
+      addressId: DataTypes.INTEGER,
+      cartId: DataTypes.INTEGER,
+      fullName: DataTypes.STRING,
+      mobile: DataTypes.STRING,
+      totalAmount: DataTypes.DECIMAL(20, 2),
+      status: {
+        type: DataTypes.ENUM(
+          'Pending',
+          'Processing',
+          'Shipped',
+          'Delivered',
+          'Cancelled'
+        ),
+        defaultValue: 'Pending'
+      },
+      paymentStatus: {
+        type: DataTypes.ENUM('Pending', 'Completed', 'Failed', 'Refunded'),
+        defaultValue: 'Pending'
+      }
     },
     {
       sequelize,

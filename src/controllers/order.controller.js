@@ -57,7 +57,7 @@ export const cancelOrder = async (req, res) => {
   try {
     const orderId = req.params.id;
     const userId = req.body.userId;
-    const data = await orderService.cancelOrder(orderId,userId);
+    const data = await orderService.cancelOrder(orderId, userId);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
@@ -71,7 +71,6 @@ export const cancelOrder = async (req, res) => {
   }
 };
 
-
 /**
  * Controller to update a order
  * @param  {object} req - request object
@@ -79,20 +78,20 @@ export const cancelOrder = async (req, res) => {
  * @param {Function} next
  */
 export const updateOrder = async (req, res) => {
-    try {
-      const orderId = req.params.id;
-      const userId = req.body.userId;
-      const body=req.body;
-      const data = await orderService.updateOrder(orderId,userId,body);
-      res.status(HttpStatus.OK).json({
-        code: HttpStatus.OK,
-        data: data,
-        message: 'order updated successfully'
-      });
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).json({
-        code: HttpStatus.BAD_REQUEST,
-        message: error.message
-      });
-    }
-  };
+  try {
+    const orderId = req.params.id;
+    const userId = req.body.userId;
+    const body = req.body;
+    const data = await orderService.updateOrder(orderId, userId, body);
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'order updated successfully'
+    });
+  } catch (error) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code: HttpStatus.BAD_REQUEST,
+      message: error.message
+    });
+  }
+};

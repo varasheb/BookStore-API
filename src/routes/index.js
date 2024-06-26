@@ -8,7 +8,6 @@ import wishlistRoute from './wishlist.route';
 import orderRoute from './order.route';
 import addressRoute from './address.route';
 
-
 /**
  * Function contains Application routes
  *

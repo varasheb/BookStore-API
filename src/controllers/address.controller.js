@@ -57,7 +57,7 @@ export const removeAddress = async (req, res) => {
   try {
     const addressId = req.params.id;
     const userId = req.body.userId;
-    const data = await AddressService.removeAddress(addressId,userId);
+    const data = await AddressService.removeAddress(addressId, userId);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
@@ -71,7 +71,6 @@ export const removeAddress = async (req, res) => {
   }
 };
 
-
 /**
  * Controller to update a Address
  * @param  {object} req - request object
@@ -79,20 +78,20 @@ export const removeAddress = async (req, res) => {
  * @param {Function} next
  */
 export const updateAddress = async (req, res) => {
-    try {
-      const addressId = req.params.id;
-      const userId = req.body.userId;
-      const body=req.body;
-      const data = await AddressService.updateAddress(addressId,userId,body);
-      res.status(HttpStatus.OK).json({
-        code: HttpStatus.OK,
-        data: data,
-        message: 'Address updated successfully'
-      });
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).json({
-        code: HttpStatus.BAD_REQUEST,
-        message: error.message
-      });
-    }
-  };
+  try {
+    const addressId = req.params.id;
+    const userId = req.body.userId;
+    const body = req.body;
+    const data = await AddressService.updateAddress(addressId, userId, body);
+    res.status(HttpStatus.OK).json({
+      code: HttpStatus.OK,
+      data: data,
+      message: 'Address updated successfully'
+    });
+  } catch (error) {
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code: HttpStatus.BAD_REQUEST,
+      message: error.message
+    });
+  }
+};
