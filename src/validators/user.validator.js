@@ -16,7 +16,7 @@ export const newUserValidator = (req, res, next) => {
         'Password must be 8+ chars with a digit, lower, upper, and special character.'
       )
       .required(),
-      role: Joi.string().valid('admin', 'customer').optional() ,
+    role: Joi.string().valid('admin', 'customer').optional()
   });
   const { error, value } = schema.validate(req.body);
   if (error) {
