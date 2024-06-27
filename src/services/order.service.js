@@ -1,38 +1,46 @@
-const { Order, Address, Cart, Book } = require('../models/assocation');
+import { publish } from '../config/rabbitMq';
+
+const { Order, Address, Cart, Book, User } = require('../models/assocation');
 
 // create new order
 export const newOrder = async (userId, addressId) => {
-const address = await Address.findOne({where: { id: addressId, userId }});
-if (!address) 
-  throw new Error('Address not found or does not belong to the user');
+  const address = await Address.findOne({ where: { id: addressId, userId } });
+  if (!address)
+    throw new Error('Address not found or does not belong to the user');
 
-const cart = await Cart.findOne({ where: { userId } });
-if (!cart) throw new Error('Cart not found');
+  const cart = await Cart.findOne({ where: { userId } });
+  if (!cart || cart.books.length === 0) throw new Error('Cart not found');
 
-for (const cartItem of cart.books) {
-  const book = await Book.findByPk(cartItem.bookId);
-  if (!book) 
-    throw new Error(`Book with id ${cartItem.bookId} not found`);
-  if (book.quantity < cartItem.quantity) 
-    throw new Error(`Out of Stock for book id ${cartItem.bookId}`);
-  book.quantity -= cartItem.quantity;
-  await book.save();
-}
+  for (const cartItem of cart.books) {
+    const book = await Book.findByPk(cartItem.bookId);
+    if (!book) throw new Error(`Book with id ${cartItem.bookId} not found`);
+    if (book.quantity < cartItem.quantity)
+      throw new Error(`Out of Stock for book id ${cartItem.bookId}`);
+    book.quantity -= cartItem.quantity;
+    await book.save();
+  }
 
-const { fullName, mobile } = address;
-const order = await Order.create({
-  userId,
-  addressId,
-  books: cart.books,
-  fullName,
-  mobile,
-  totalAmount: cart.totalDiscountPrice,
-});
-cart.books = [];
-cart.totalDiscountPrice=0;
-cart.totalPrice=0;
-await cart.save();
-return order;
+  const { fullName, mobile } = address;
+  const order = await Order.create({
+    userId,
+    addressId,
+    books: cart.books,
+    fullName,
+    mobile,
+    totalAmount: cart.totalDiscountPrice
+  });
+  cart.books = [];
+  cart.totalDiscountPrice = 0;
+  cart.totalPrice = 0;
+  await cart.save();
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error('User not found');
+  const message = JSON.stringify({
+    order: order,
+    email: user.email
+  });
+  await publish('Order', message);
+  return order;
 };
 
 // get all order

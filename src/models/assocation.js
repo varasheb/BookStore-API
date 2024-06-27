@@ -13,7 +13,7 @@ User.hasMany(Wishlist, { foreignKey: 'userId' });
 User.hasMany(Address, { foreignKey: 'userId' });
 User.hasMany(Order, { foreignKey: 'userId' });
 
-Book.belongsTo(User, { foreignKey: 'userId' }); 
+Book.belongsTo(User, { foreignKey: 'userId' });
 Book.hasOne(Wishlist, { foreignKey: 'bookId' });
 
 Cart.belongsTo(User, { foreignKey: 'userId' });

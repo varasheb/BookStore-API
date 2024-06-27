@@ -73,4 +73,98 @@ async function sendNotification(data) {
   }
 }
 
-module.exports = { sendResetPasswordEmail, sendNotification };
+async function sendOrderNotification(data) {
+  const mailOptions = {
+    from: mail,
+    to: data.email,
+    subject: 'Order Placed Successful',
+    html: `<html>
+      <head>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+          }
+          h1 {
+            color: #333;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            margin-top: 20px;
+          }
+          th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+          }
+          th {
+            background-color: #f0f0f0;
+            color: #333;
+          }
+          tfoot td {
+            border-top: 2px solid #333;
+          }
+          .total-amount {
+            background-color: #ffc107; /* Yellow */
+            color: #333;
+            font-weight: bold;
+            text-align: right;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>Welcome to Our Service</h1>
+        <p>Hi ${data.order.fullName},</p>
+        <p>Your order details:</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Book Name</th>
+              <th>Quantity</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.order.books
+              .map(
+                (book) => `
+              <tr>
+                <td>${book.bookName}</td>
+                <td>${book.quantity}</td>
+                <td>${
+                  parseFloat(book.discountPrice) * parseInt(book.quantity)
+                }</td>
+              </tr>
+            `
+              )
+              .join('')}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2" class="total-amount">Total Amount:</td>
+              <td class="total-amount">${data.order.totalAmount}</td>
+            </tr>
+          </tfoot>
+        </table>
+      </body>
+    </html>`
+  };
+  try {
+    const result = await transporter.sendMail(mailOptions);
+    logger.info(`Email sent to ${data.email}`);
+    return result;
+  } catch (error) {
+    logger.error(`Error sending email to ${data.email}: ${error.message}`);
+    throw error;
+  }
+}
+
+module.exports = {
+  sendResetPasswordEmail,
+  sendNotification,
+  sendOrderNotification
+};

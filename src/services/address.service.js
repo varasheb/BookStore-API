@@ -73,12 +73,16 @@ export const updateAddress = async (addressId, userId, updateBody) => {
   if (!existingAddressOfType) {
     throw new Error(`Address of type ${updateBody.addressType} not found`);
   }
-  existingAddressOfType.addressLine1 = updateBody.addressLine1 || existingAddressOfType.addressLine1;
-  existingAddressOfType.addressLine2 = updateBody.addressLine2 || existingAddressOfType.addressLine2;
+  existingAddressOfType.addressLine1 =
+    updateBody.addressLine1 || existingAddressOfType.addressLine1;
+  existingAddressOfType.addressLine2 =
+    updateBody.addressLine2 || existingAddressOfType.addressLine2;
   existingAddressOfType.city = updateBody.city || existingAddressOfType.city;
   existingAddressOfType.state = updateBody.state || existingAddressOfType.state;
-  existingAddressOfType.postalCode = updateBody.postalCode || existingAddressOfType.postalCode;
-  existingAddressOfType.country = updateBody.country || existingAddressOfType.country;
+  existingAddressOfType.postalCode =
+    updateBody.postalCode || existingAddressOfType.postalCode;
+  existingAddressOfType.country =
+    updateBody.country || existingAddressOfType.country;
 
   address.changed('addresses', true);
   await address.save();
