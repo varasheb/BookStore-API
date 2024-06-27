@@ -8,8 +8,8 @@ export const addToWishlist = async (bookId, userId) => {
   }
   const wishlist = await Wishlist.findOne({ where: { userId } });
   if (wishlist) {
-    if (wishlist.bookIds.includes(bookId))
-      throw new Error('Book is already in the wishlist');
+    const index = wishlist.bookIds.findIndex((id) => id == bookId);
+    if (index !== -1) throw new Error('Book is already in the wishlist');
     wishlist.bookIds.push(bookId);
     wishlist.changed('bookIds', true);
     await wishlist.save();
