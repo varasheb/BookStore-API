@@ -14,7 +14,7 @@ import {
 import logger, { logStream } from './config/logger';
 
 import morgan from 'morgan';
-import swaggerUi from'swagger-ui-express';
+import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './utils/swagger.json';
 
 import { startEmailConsumer } from '../src/utils/emailConsumer';

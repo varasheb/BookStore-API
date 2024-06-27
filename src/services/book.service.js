@@ -1,4 +1,4 @@
-const { User ,Book } = require('../models/assocation');
+const { User, Book } = require('../models/assocation');
 
 //create new Book
 export const addBook = async (body) => {
@@ -31,7 +31,7 @@ export const updateBook = async (bookId, body) => {
   const user = await User.findByPk(body.userId);
   if (!user) throw new Error('User not found');
 
-  if (user.role !== 'admin') 
+  if (user.role !== 'admin')
     throw new Error('Only admin users can update books');
 
   const updatedBook = await Book.update(body, {
@@ -47,9 +47,9 @@ export const deleteBook = async (bookId, userId) => {
   const user = await User.findByPk(userId);
   if (!user) throw new Error('User not found');
 
-  if (user.role !== 'admin') 
+  if (user.role !== 'admin')
     throw new Error('Unauthorized: Only admin users can delete books');
-  
+
   const book = await Book.findByPk(bookId);
   if (!book) throw new Error('Book not found');
   await book.destroy();
