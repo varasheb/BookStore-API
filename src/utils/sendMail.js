@@ -129,13 +129,19 @@ async function sendOrderNotification(data) {
             </tr>
           </thead>
           <tbody>
-            ${data.order.books.map(book => `
+            ${data.order.books
+              .map(
+                (book) => `
               <tr>
                 <td>${book.bookName}</td>
                 <td>${book.quantity}</td>
-                <td>${book.discountPrice}</td>
+                <td>${
+                  parseFloat(book.discountPrice) * parseInt(book.quantity)
+                }</td>
               </tr>
-            `).join('')}
+            `
+              )
+              .join('')}
           </tbody>
           <tfoot>
             <tr>
@@ -157,4 +163,8 @@ async function sendOrderNotification(data) {
   }
 }
 
-module.exports = { sendResetPasswordEmail, sendNotification ,sendOrderNotification };
+module.exports = {
+  sendResetPasswordEmail,
+  sendNotification,
+  sendOrderNotification
+};

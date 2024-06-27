@@ -3,27 +3,31 @@ const { Cart, Book } = require('../models/assocation');
 //create new cart
 export const addToCart = async (bookId, userId) => {
   const book = await Book.findOne({ where: { id: bookId } });
-  if (!book)  throw new Error('Book not found');
+  if (!book) throw new Error('Book not found');
 
   let cart = await Cart.findOne({ where: { userId } });
 
   if (!cart) {
     cart = await Cart.create({
       userId,
-      books: [{
-        bookId: book.id,
-        quantity: 1,
-        bookName: book.bookName,
-        author: book.author,
-        price:book.price, 
-        discountPrice:book.discountPrice
-      }],
-      totalPrice:book.price, 
-      totalDiscountPrice:book.discountPrice, 
+      books: [
+        {
+          bookId: book.id,
+          quantity: 1,
+          bookName: book.bookName,
+          author: book.author,
+          price: book.price,
+          discountPrice: book.discountPrice
+        }
+      ],
+      totalPrice: book.price,
+      totalDiscountPrice: book.discountPrice,
       isOrderPlaced: false
     });
   } else {
-    const existingBook = cart.books.find((item) => parseInt(item.bookId) === book.id);
+    const existingBook = cart.books.find(
+      (item) => parseInt(item.bookId) === book.id
+    );
     if (existingBook) {
       existingBook.quantity += 1;
     } else {
@@ -32,18 +36,18 @@ export const addToCart = async (bookId, userId) => {
         quantity: 1,
         bookName: book.bookName,
         author: book.author,
-        price:book.price, 
-        discountPrice:book.discountPrice
+        price: book.price,
+        discountPrice: book.discountPrice
       });
     }
     cart.totalPrice = parseFloat(cart.totalPrice) + parseFloat(book.price);
-    cart.totalDiscountPrice = parseFloat(cart.totalDiscountPrice) + parseFloat(book.discountPrice);
+    cart.totalDiscountPrice =
+      parseFloat(cart.totalDiscountPrice) + parseFloat(book.discountPrice);
     cart.changed('books', true);
   }
   await cart.save();
   return cart;
 };
-
 
 // get all items from cart
 export const getAllItemFromCart = async (userId) => {
@@ -51,9 +55,9 @@ export const getAllItemFromCart = async (userId) => {
     where: { userId: userId }
   });
 
-  if (!cart || cart.books.length === 0) 
+  if (!cart || cart.books.length === 0)
     throw new Error('No items found in the cart for this user');
-  
+
   return cart;
 };
 
@@ -69,10 +73,13 @@ export const removeItemFromCart = async (bookId, userId) => {
   } else {
     cart.books = cart.books.filter((item) => item.bookId != bookId);
   }
-  cart.totalPrice = parseFloat(cart.totalPrice) - parseFloat(existingBook.price);
-  cart.totalDiscountPrice = parseFloat(cart.totalDiscountPrice) - parseFloat(existingBook.discountPrice);
+  cart.totalPrice =
+    parseFloat(cart.totalPrice) - parseFloat(existingBook.price);
+  cart.totalDiscountPrice =
+    parseFloat(cart.totalDiscountPrice) -
+    parseFloat(existingBook.discountPrice);
   cart.changed('books', true);
-  
+
   await cart.save();
   return cart;
 };

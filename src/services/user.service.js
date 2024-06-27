@@ -4,7 +4,6 @@ import bcrypt from 'bcryptjs';
 import { sendResetPasswordEmail } from '../utils/sendMail';
 import { publish } from '../config/rabbitMq';
 
-
 const { User } = require('../models/assocation');
 
 dotenv.config();
