@@ -1,3 +1,7 @@
+import {
+  cacheAllBooks,
+  invalidateBooksCache
+} from '../middlewares/cache.middleware';
 const { User, Book } = require('../models/assocation');
 
 //create new Book
@@ -8,6 +12,7 @@ export const addBook = async (body) => {
     throw new Error('Only admin users can add books');
   }
   const data = await Book.create(body);
+  await invalidateBooksCache();
   return data;
 };
 
@@ -17,12 +22,14 @@ export const getBook = async (bookId) => {
   if (!book) {
     throw new Error('Book not found');
   }
+  await cacheAllBooks();
   return book;
 };
 
 //Fetch all Book
 export const getAllBooks = async () => {
   const books = await Book.findAll();
+  await cacheAllBooks();
   return books;
 };
 
@@ -39,6 +46,7 @@ export const updateBook = async (bookId, body) => {
     returning: true
   });
   if (updatedBook[0] === 0) throw new Error('Book not found');
+  await invalidateBooksCache();
   return updatedBook[1][0];
 };
 
@@ -53,5 +61,6 @@ export const deleteBook = async (bookId, userId) => {
   const book = await Book.findByPk(bookId);
   if (!book) throw new Error('Book not found');
   await book.destroy();
+  await invalidateBooksCache();
   return book;
 };
