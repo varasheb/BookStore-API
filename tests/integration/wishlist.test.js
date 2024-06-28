@@ -1,7 +1,15 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import { User, Book, Wishlist ,Cart} from '../../src/models/assocation';
+import {
+  User,
+  Book,
+  Wishlist,
+  Cart,
+  Order,
+  Address
+} from '../../src/models/assocation';
 import app from '../../src/index';
+
 let authToken;
 let bookId;
 
@@ -11,7 +19,6 @@ describe('Wishlist APIs Test', () => {
       email: 'testuser@example.com',
       password: 'Test@1234'
     };
-    await User.create(userData); 
 
     const loginRes = await request(app)
       .post('/api/v1/users/login')
@@ -19,27 +26,16 @@ describe('Wishlist APIs Test', () => {
 
     authToken = loginRes.body.token;
 
-    const bookData = {
-      description: 'A great book',
-      discountPrice: 450.00,
-      bookImage: 'http://example.com/image.jpg',
-      bookName: 'Thinking, Fast and Slow',
-      author: 'Daniel Kahneman',
-      quantity: 100,
-      price: 999.00
-    };
+    const bookRes = await request(app).get('/api/v1/books');
 
-    const bookRes = await request(app)
-      .post('/api/v1/books')
-      .set('Authorization', `Bearer ${authToken}`)
-      .send(bookData);
-
-    bookId = bookRes.body.data.id;
+    bookId = bookRes.body.data[0].id;
   });
 
   after(async () => {
     await Wishlist.destroy({ where: {} });
+    await Order.destroy({ where: {} });
     await Cart.destroy({ where: {} });
+    await Address.destroy({ where: {} });
     await Book.destroy({ where: {} });
     await User.destroy({ where: {} });
   });
@@ -73,8 +69,7 @@ describe('Wishlist APIs Test', () => {
     });
 
     it('should return 401 if not authenticated', async () => {
-      const res = await request(app)
-        .get('/api/v1/wishlist');
+      const res = await request(app).get('/api/v1/wishlist');
 
       expect(res.statusCode).to.be.equal(401);
     });

@@ -1,8 +1,6 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import { User, Book, Cart} from '../../src/models/assocation';
 import app from '../../src/index';
-
 
 let authToken;
 let bookId;
@@ -21,12 +19,12 @@ describe('Cart APIs Test', () => {
 
     const bookData = {
       description: 'A great book',
-      discountPrice: 450.00,
+      discountPrice: 450.0,
       bookImage: 'http://example.com/image.jpg',
       bookName: 'Thinking, Fast and Slow',
       author: 'Daniel Kahneman',
       quantity: 100,
-      price: 999.00
+      price: 999.0
     };
 
     const bookRes = await request(app)
@@ -37,12 +35,6 @@ describe('Cart APIs Test', () => {
     bookId = bookRes.body.data.id;
   });
 
-//   after(async () => {
-//     await User.destroy({ where: {} });
-//     await Book.destroy({ where: {} });
-//     await Cart.destroy({ where: {} });
-//   });
-
   describe('POST /api/v1/cart/:id', () => {
     it('should add a book to the cart successfully', async () => {
       const res = await request(app)
@@ -52,11 +44,23 @@ describe('Cart APIs Test', () => {
       expect(res.statusCode).to.be.equal(201);
       expect(res.body.data).to.have.property('id');
       expect(res.body.data.books[0]).to.have.property('bookId', bookId);
-      expect(res.body.data.books[0]).to.have.property('bookName', 'Thinking, Fast and Slow');
-      expect(res.body.data.books[0]).to.have.property('author', 'Daniel Kahneman');
+      expect(res.body.data.books[0]).to.have.property(
+        'bookName',
+        'Thinking, Fast and Slow'
+      );
+      expect(res.body.data.books[0]).to.have.property(
+        'author',
+        'Daniel Kahneman'
+      );
       expect(res.body.data.books[0]).to.have.property('price', '999.00');
-      expect(res.body.data.books[0]).to.have.property('discountPrice', '450.00');
-      expect(res.body).to.have.property('message', 'Book added To Cart successfully');
+      expect(res.body.data.books[0]).to.have.property(
+        'discountPrice',
+        '450.00'
+      );
+      expect(res.body).to.have.property(
+        'message',
+        'Book added To Cart successfully'
+      );
     });
 
     it('should return 400 for non-existent book', async () => {
@@ -79,8 +83,7 @@ describe('Cart APIs Test', () => {
     });
 
     it('should return 401 if not authenticated', async () => {
-      const res = await request(app)
-        .get('/api/v1/cart');
+      const res = await request(app).get('/api/v1/cart');
 
       expect(res.statusCode).to.be.equal(401);
     });
@@ -101,6 +104,14 @@ describe('Cart APIs Test', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.statusCode).to.be.equal(400);
+    });
+    it('should add a book to the cart successfully', async () => {
+      const res = await request(app)
+        .post(`/api/v1/cart/${bookId}`)
+        .set('Authorization', `Bearer ${authToken}`);
+
+      expect(res.statusCode).to.be.equal(201);
+      expect(res.body.data).to.have.property('id');
     });
   });
 });

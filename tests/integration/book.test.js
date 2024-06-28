@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import { User, Book, Address} from '../../src/models/assocation';
 import app from '../../src/index';
 
 let authToken;
@@ -8,7 +7,6 @@ let bookId;
 
 describe('Book APIs Test', () => {
   before(async () => {
-
     const userData = {
       email: 'testuser@example.com',
       password: 'Test@1234'
@@ -19,12 +17,6 @@ describe('Book APIs Test', () => {
 
     authToken = loginRes.body.token;
   });
-
-  // after(async () => {
-  //   await Address.destroy({ where: {} });
-  //   await Book.destroy({ where: {} });
-  //   await User.destroy({ where: {} });
-  // });
 
   describe('POST /api/v1/books', () => {
     it('should add a new book successfully', async () => {
@@ -114,7 +106,10 @@ describe('Book APIs Test', () => {
         .send(updateData);
 
       expect(res.statusCode).to.be.equal(200);
-      expect(res.body.data).to.have.property('description', updateData.description);
+      expect(res.body.data).to.have.property(
+        'description',
+        updateData.description
+      );
     });
 
     it('should return 400 for non-existent book', async () => {

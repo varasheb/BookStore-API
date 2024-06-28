@@ -1,33 +1,24 @@
 import { expect } from 'chai';
 import request from 'supertest';
-import { User, Address } from '../../src/models/assocation';
 import app from '../../src/index';
-
 
 let authToken;
 let addressId;
 
 describe('Address APIs Test', () => {
   before(async () => {
-    
     const userData = {
-        name: 'testuser',
-        email: 'testuser@example.com',
-        mobile:'9999999999',
-        password: 'Test@1234'
-      };
+      name: 'testuser',
+      email: 'testuser@example.com',
+      mobile: '9999999999',
+      password: 'Test@1234'
+    };
     const loginRes = await request(app)
       .post('/api/v1/users/login')
       .send({ email: userData.email, password: userData.password });
 
     authToken = loginRes.body.token;
   });
-
-//   after(async () => {
-//       await User.destroy({ where: {} });
-//       await Address.destroy({ where: {} });
-//   });
-
 
   describe('POST /api/v1/address', () => {
     it('should create a new address successfully', async () => {
@@ -67,8 +58,6 @@ describe('Address APIs Test', () => {
     });
   });
 
-
-
   describe('GET /api/v1/address', () => {
     it('should return adress ', async () => {
       const res = await request(app)
@@ -80,14 +69,11 @@ describe('Address APIs Test', () => {
     });
 
     it('should return 401 if not authenticated', async () => {
-      const res = await request(app)
-        .get('/api/v1/address');
+      const res = await request(app).get('/api/v1/address');
 
       expect(res.statusCode).to.be.equal(401);
     });
   });
-
-  
 
   describe('PUT /api/v1/address/:id', () => {
     it('should update an address successfully', async () => {
@@ -136,6 +122,24 @@ describe('Address APIs Test', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.statusCode).to.be.equal(200);
+    });
+    it('should create a new address successfully', async () => {
+      const addressData = {
+        addressType: 'Work',
+        addressLine1: 'Bridgelabz Hsr layout',
+        addressLine2: 'Apt 1034',
+        city: 'Banglore',
+        state: 'Karnataka',
+        postalCode: '560021',
+        country: 'India'
+      };
+
+      const res = await request(app)
+        .post('/api/v1/address')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send(addressData);
+
+      expect(res.statusCode).to.be.equal(201);
     });
 
     it('should return 404 for non-existent address', async () => {

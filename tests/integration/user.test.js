@@ -1,13 +1,9 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../src/index';
-import sequelize, { DataTypes } from '../../src/config/database';
+import sequelize from '../../src/config/database';
 
 describe('User APIs Test', () => {
-
-  // after(async () => {
-  //   await User.destroy({ where: {} });
-  // });
   before(async () => {
     // Sync database
     await sequelize.sync({ force: true });
@@ -18,14 +14,12 @@ describe('User APIs Test', () => {
       const userData = {
         name: 'testuser',
         email: 'testuser@example.com',
-        mobile:'9999999999',
+        mobile: '9999999999',
         password: 'Test@1234',
-        role:"admin"
+        role: 'admin'
       };
 
-      const res = await request(app)
-        .post('/api/v1/users')
-        .send(userData);
+      const res = await request(app).post('/api/v1/users').send(userData);
 
       expect(res.statusCode).to.be.equal(201);
       expect(res.body.data).to.have.property('id');
@@ -37,19 +31,17 @@ describe('User APIs Test', () => {
       const userData = {
         name: 'testuser',
         email: 'testuser@example.com',
-        mobile:'9999999999',
+        mobile: '9999999999',
         password: 'Test@1234'
       };
 
-      const res = await request(app)
-        .post('/api/v1/users')
-        .send(userData);
+      const res = await request(app).post('/api/v1/users').send(userData);
 
-        expect(res.statusCode).to.equal(400);
-        expect(res.body).to.be.an('object');
-        expect(res.body.message).to.equal(
-          'User Already Exist for this Email or mobile Number'
-        );
+      expect(res.statusCode).to.equal(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body.message).to.equal(
+        'User Already Exist for this Email or mobile Number'
+      );
     });
 
     it('should return validation error for missing required fields', async () => {
@@ -57,9 +49,7 @@ describe('User APIs Test', () => {
         name: 'testuser'
       };
 
-      const res = await request(app)
-        .post('/api/v1/users')
-        .send(userData);
+      const res = await request(app).post('/api/v1/users').send(userData);
 
       expect(res.statusCode).to.be.equal(400);
     });
@@ -77,7 +67,9 @@ describe('User APIs Test', () => {
         .send(loginData);
 
       expect(res.statusCode).to.be.equal(200);
-      expect(res.body).to.have.property('message').that.is.a('string', 'User login successfully');
+      expect(res.body)
+        .to.have.property('message')
+        .that.is.a('string', 'User login successfully');
       expect(res.body).to.have.property('token');
     });
 
@@ -108,5 +100,4 @@ describe('User APIs Test', () => {
       expect(res.body).to.have.property('message').that.is.a('string');
     });
   });
-
 });
