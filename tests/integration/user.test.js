@@ -19,7 +19,8 @@ describe('User APIs Test', () => {
         name: 'testuser',
         email: 'testuser@example.com',
         mobile:'9999999999',
-        password: 'Test@1234'
+        password: 'Test@1234',
+        role:"admin"
       };
 
       const res = await request(app)

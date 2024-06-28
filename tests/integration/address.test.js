@@ -23,10 +23,10 @@ describe('Address APIs Test', () => {
     authToken = loginRes.body.token;
   });
 
-  after(async () => {
-      await User.destroy({ where: {} });
-      await Address.destroy({ where: {} });
-  });
+//   after(async () => {
+//       await User.destroy({ where: {} });
+//       await Address.destroy({ where: {} });
+//   });
 
 
   describe('POST /api/v1/address', () => {
