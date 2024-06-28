@@ -9,3 +9,5 @@ import * as UserService from '../../src/services/user.service';
 //     });
 //   });
 // });
+
+// "test": "cross-env NODE_ENV=test mocha --exit --recursive --require @babel/register --timeout=5000 tests/**/*.js",

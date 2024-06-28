@@ -1,13 +1,16 @@
 import { expect } from 'chai';
 import request from 'supertest';
 import app from '../../src/index';
-const {User} = require('../../src/models/assocation');
-
+import sequelize, { DataTypes } from '../../src/config/database';
 
 describe('User APIs Test', () => {
 
-  after(async () => {
-    await User.destroy({ where: {} });
+  // after(async () => {
+  //   await User.destroy({ where: {} });
+  // });
+  before(async () => {
+    // Sync database
+    await sequelize.sync({ force: true });
   });
 
   describe('POST /api/v1/users', () => {
