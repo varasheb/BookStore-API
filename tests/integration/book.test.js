@@ -20,11 +20,11 @@ describe('Book APIs Test', () => {
     authToken = loginRes.body.token;
   });
 
-  after(async () => {
-    await Address.destroy({ where: {} });
-    await Book.destroy({ where: {} });
-    await User.destroy({ where: {} });
-  });
+  // after(async () => {
+  //   await Address.destroy({ where: {} });
+  //   await Book.destroy({ where: {} });
+  //   await User.destroy({ where: {} });
+  // });
 
   describe('POST /api/v1/books', () => {
     it('should add a new book successfully', async () => {
