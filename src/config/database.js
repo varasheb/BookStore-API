@@ -15,7 +15,7 @@ let DIALECT = process.env.DIALECT;
 
 if (process.env.NODE_ENV === 'test') {
   DATABASE = process.env.DATABASE_TEST;
-  USERNAME = process.env.USER_NAME_TEST;
+  USERNAME = process.env.USERNAME_TEST;
   PASSWORD = process.env.PASSWORD_TEST;
   HOST = process.env.HOST_TEST;
   PORT = process.env.PORT_TEST;

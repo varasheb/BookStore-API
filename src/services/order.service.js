@@ -3,7 +3,7 @@ import { publish } from '../config/rabbitMq';
 const { Order, Address, Cart, Book, User } = require('../models/assocation');
 
 // create new order
-export const newOrder = async (userId, addressId) => {
+export const newOrder = async (addressId, userId) => {
   const address = await Address.findOne({ where: { id: addressId, userId } });
   if (!address)
     throw new Error('Address not found or does not belong to the user');
