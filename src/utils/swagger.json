@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3000/api/v1",
       "description": "Local server"
     }
   ],
@@ -499,28 +499,14 @@
         "summary": "Add a book to the cart",
         "parameters": [
           {
-            "name": "BookId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": { "type": "string" }
-                },
-                "required": ["userId"]
-              }
-            }
-          }
-        },
         "responses": {
           "201": {
             "description": "Book added to cart successfully"
@@ -540,28 +526,14 @@
         "summary": "Remove a book from the cart",
         "parameters": [
           {
-            "name": "BookId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "userId": { "type": "string" }
-                },
-                "required": ["userId"]
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Book removed from cart successfully"
@@ -599,11 +571,11 @@
         "summary": "Add an item to the wishlist",
         "parameters": [
           {
-            "name": "BookId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -626,11 +598,11 @@
         "summary": "Remove an item from the wishlist",
         "parameters": [
           {
-            "name": "BookId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -649,7 +621,7 @@
         ]
       }
     },
-    "/orders": {
+    "/order": {
       "get": {
         "tags": ["Orders"],
         "summary": "Get all orders",
@@ -665,7 +637,7 @@
         ]
       }
     },
-    "/orders/{id}": {
+    "/order/{id}": {
       "post": {
         "tags": ["Orders"],
         "summary": "Create a new order",
@@ -675,7 +647,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "description": "Address ID for the new order"
           }
@@ -697,34 +669,6 @@
           }
         ]
       },
-      "get": {
-        "tags": ["Orders"],
-        "summary": "Get an order by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Order ID to retrieve"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Order details"
-          },
-          "404": {
-            "description": "Order not found"
-          }
-        },
-        "security": [
-          {
-            "BearerAuth": []
-          }
-        ]
-      },
       "put": {
         "tags": ["Orders"],
         "summary": "Update an order by ID",
@@ -734,7 +678,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "description": "Order ID to update"
           }
@@ -780,7 +724,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "description": "Order ID to Canceled"
           }
@@ -800,7 +744,7 @@
         ]
       }
     },
-    "/addresses": {
+    "/address": {
       "get": {
         "tags": ["Addresses"],
         "summary": "Get all addresses",
@@ -843,7 +787,8 @@
                 ]
               }
             }
-          },
+          }
+        },
           "responses": {
             "201": {
               "description": "Address created successfully"
@@ -858,9 +803,8 @@
             }
           ]
         }
-      }
     },
-    "/addresses/{id}": {
+    "/address/{id}": {
       "put": {
         "tags": ["Addresses"],
         "summary": "Update an address by ID",
@@ -870,7 +814,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer"
             }
           }
         ],
@@ -899,6 +843,7 @@
                 ]
               }
             }
+          }
           },
           "responses": {
             "200": {
@@ -913,7 +858,6 @@
               "BearerAuth": []
             }
           ]
-        }
       },
       "delete": {
         "tags": ["Addresses"],
