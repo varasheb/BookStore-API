@@ -6,14 +6,15 @@ import {
   getAllCachedBooks,
   getBookFromCache
 } from '../middlewares/cache.middleware';
+import { searchLimiter } from '../middlewares/rateLimiter.middleware';
 
 const router = express.Router();
 
 router.post('', bookValidator, userAuth, bookController.addBook);
 
-router.get('', getAllCachedBooks, bookController.getAllBooks);
+router.get('', searchLimiter, getAllCachedBooks, bookController.getAllBooks);
 
-router.get('/:id', getBookFromCache, bookController.getBook);
+router.get('/:id', searchLimiter, getBookFromCache, bookController.getBook);
 
 router.put('/:id', userAuth, bookController.updateBook);
 
