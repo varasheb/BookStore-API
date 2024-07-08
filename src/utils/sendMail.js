@@ -29,18 +29,20 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+
 // Email sending function
 async function sendResetPasswordEmail(email, token) {
+  const frontendBaseUrl = process.env.FRONTEND_BASE_URL;
+  const resetPasswordLink = `${frontendBaseUrl}/resetPassword?token=${token}`;
+
   const mailOptions = {
-    from: mail,
+    from: 'your-email@example.com',
     to: email,
     subject: 'Password Reset',
     html: `<h1>Password Reset</h1>
       <p>Hi!!</p>
       <p>Visit the link to proceed with your password reset</p>
-      <p>the token is:${token} </p>
-      <a href="http://localhost:3000/api/v1/users/resetPassword">Reset Password</a>
-      `
+      <a href="${resetPasswordLink}">Reset Password</a>`
   };
 
   try {
