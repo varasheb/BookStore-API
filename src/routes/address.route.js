@@ -9,8 +9,8 @@ router.get('', userAuth, addressController.getAddress);
 
 router.post('', userAuth, addressValidator, addressController.newAddress);
 
-router.put('/:id', userAuth, addressController.updateAddress);
+router.put('', userAuth, addressController.updateAddress);
 
-router.delete('/:id', userAuth, addressController.removeAddress);
+router.delete('', userAuth, addressController.removeAddress);
 
 export default router;

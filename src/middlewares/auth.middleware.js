@@ -1,5 +1,6 @@
 import HttpStatus from 'http-status-codes';
 import jwt from 'jsonwebtoken';
+import { decryptData } from '../utils/user.util';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -49,7 +50,7 @@ export const userResetAuth = async (req, res, next) => {
     }
     bearerToken = bearerToken.split(' ')[1];
     const { id } = await jwt.verify(bearerToken, resetkey);
-    req.body.userId = id;
+    req.body.userId = decryptData(id);
     req.body.token = bearerToken;
     next();
   } catch (error) {
@@ -59,3 +60,4 @@ export const userResetAuth = async (req, res, next) => {
     });
   }
 };
+

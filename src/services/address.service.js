@@ -49,12 +49,13 @@ export const newAddress = async (body) => {
 // get all Address
 export const getAddress = async (userId) => {
   const addresses = await Address.findOne({ where: { userId } });
+  if (!addresses) throw new Error('Address not found');
   return addresses;
 };
 
 // Remove Address
-export const removeAddress = async (addressId, userId) => {
-  const address = await Address.findOne({ where: { id: addressId, userId } });
+export const removeAddress = async (userId) => {
+  const address = await Address.findOne({ where: { userId } });
   if (!address) {
     throw new Error('Address not found');
   }
@@ -63,8 +64,8 @@ export const removeAddress = async (addressId, userId) => {
 };
 
 // Update Address
-export const updateAddress = async (addressId, userId, updateBody) => {
-  const address = await Address.findOne({ where: { id: addressId, userId } });
+export const updateAddress = async (userId, updateBody) => {
+  const address = await Address.findOne({ where: { userId } });
   if (!address) throw new Error('Address not found');
   const existingAddresses = address.addresses || [];
   const existingAddressOfType = existingAddresses.find(

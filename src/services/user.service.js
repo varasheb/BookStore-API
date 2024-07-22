@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { encryptData } from '../utils/user.util';
 import { sendResetPasswordEmail } from '../utils/sendMail';
 import { publish } from '../config/rabbitMq';
 
@@ -51,8 +52,9 @@ export const loginUser = async ({ email, password }) => {
 export const forgetPassword = async ({ email }) => {
   const user = await User.findOne({ where: { email } });
   if (!user) throw new Error('This email does not exist');
-
-  const token = jwt.sign({ id: user.id }, resetkey, { expiresIn: '10m' });
+  
+   console.log("--------------------",encryptData(user.id));
+  const token = jwt.sign({ id: encryptData(user.id) }, resetkey, { expiresIn: '10m' });
   const result = await sendResetPasswordEmail(user.email, token);
   return { user, token, result };
 };
@@ -66,3 +68,4 @@ export const resetPassword = async (userId, newPassword) => {
   await user.save();
   return user;
 };
+

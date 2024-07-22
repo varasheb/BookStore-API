@@ -55,9 +55,8 @@ export const getAddress = async (req, res) => {
 
 export const removeAddress = async (req, res) => {
   try {
-    const addressId = req.params.id;
     const userId = req.body.userId;
-    const data = await AddressService.removeAddress(addressId, userId);
+    const data = await AddressService.removeAddress(userId);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
@@ -79,10 +78,9 @@ export const removeAddress = async (req, res) => {
  */
 export const updateAddress = async (req, res) => {
   try {
-    const addressId = req.params.id;
     const userId = req.body.userId;
     const body = req.body;
-    const data = await AddressService.updateAddress(addressId, userId, body);
+    const data = await AddressService.updateAddress(userId, body);
     res.status(HttpStatus.OK).json({
       code: HttpStatus.OK,
       data: data,
