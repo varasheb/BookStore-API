@@ -75,7 +75,7 @@ describe('Address APIs Test', () => {
     });
   });
 
-  describe('PUT /api/v1/address/:id', () => {
+  describe('PUT /api/v1/address', () => {
     it('should update an address successfully', async () => {
       const updateData = {
         addressType: 'Work',
@@ -88,7 +88,7 @@ describe('Address APIs Test', () => {
       };
 
       const res = await request(app)
-        .put(`/api/v1/address/${addressId}`)
+        .put(`/api/v1/address`)
         .set('Authorization', `Bearer ${authToken}`)
         .send(updateData);
 
@@ -107,7 +107,7 @@ describe('Address APIs Test', () => {
       };
 
       const res = await request(app)
-        .put('/api/v1/address/9999')
+        .put('/api/v1/address')
         .set('Authorization', `Bearer ${authToken}`)
         .send(updateData);
 
@@ -115,10 +115,10 @@ describe('Address APIs Test', () => {
     });
   });
 
-  describe('DELETE /api/v1/address/:id', () => {
+  describe('DELETE /api/v1/address', () => {
     it('should delete an address successfully', async () => {
       const res = await request(app)
-        .delete(`/api/v1/address/${addressId}`)
+        .delete(`/api/v1/address`)
         .set('Authorization', `Bearer ${authToken}`);
 
       expect(res.statusCode).to.be.equal(200);
@@ -142,12 +142,6 @@ describe('Address APIs Test', () => {
       expect(res.statusCode).to.be.equal(201);
     });
 
-    it('should return 404 for non-existent address', async () => {
-      const res = await request(app)
-        .delete('/api/v1/address/9999')
-        .set('Authorization', `Bearer ${authToken}`);
-
-      expect(res.statusCode).to.be.equal(400);
-    });
+  
   });
 });
