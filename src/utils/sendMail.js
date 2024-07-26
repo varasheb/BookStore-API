@@ -29,7 +29,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-
 // Email sending function
 async function sendResetPasswordEmail(email, token) {
   const frontendBaseUrl = process.env.FRONTEND_BASE_URL;
